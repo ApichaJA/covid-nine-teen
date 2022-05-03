@@ -1,0 +1,13 @@
+# for local development
+version: '3.7'
+services:
+  frontend:
+    build:
+      context: .
+    environment:
+    - NODE_ENV=staging
+    ports:
+    - '3001:8080'
+    volumes:
+    - '.:/app'
+    command: /bin/sh -c "yarn start"
