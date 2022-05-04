@@ -10,15 +10,15 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const AssessmentResults = () => {
-    const symptoms = useSelector((state) => state.assess.symptoms);
-//   const symptoms = [
-//     { id: 1, title: "เป็นไข้สูงกว่า 39", selected: false, status: 2 },
-//     { id: 2, title: "อ่อนเพลีย", selected: false, status: 1 },
-//     { id: 3, title: "แน่นหน้าอก", selected: false, status: 1 },
-//     { id: 4, title: "ไม่รู้รส", selected: true, status: 0 },
-//     { id: 5, title: "หอบเหนื่อยหนักมาก", selected: false, status: 2 },
-//     { id: 6, title: "ถ่ายเหลวมากกว่า 3 ครั้ง/วัน", selected: false, status: 1 },
-//   ];
+  const symptoms = useSelector((state) => state.assess.symptoms);
+  //   const symptoms = [
+  //     { id: 1, title: "เป็นไข้สูงกว่า 39", selected: false, status: 2 },
+  //     { id: 2, title: "อ่อนเพลีย", selected: false, status: 1 },
+  //     { id: 3, title: "แน่นหน้าอก", selected: false, status: 1 },
+  //     { id: 4, title: "ไม่รู้รส", selected: true, status: 0 },
+  //     { id: 5, title: "หอบเหนื่อยหนักมาก", selected: false, status: 2 },
+  //     { id: 6, title: "ถ่ายเหลวมากกว่า 3 ครั้ง/วัน", selected: false, status: 1 },
+  //   ];
   const [assessmentStatus, setAssessmentStatus] = useState(0);
 
   const navigate = useNavigate();
@@ -27,12 +27,16 @@ const AssessmentResults = () => {
     [navigate]
   );
 
-  useEffect(() => {
+  const validate = () => {
     if (symptoms.length === 0) {
       goBack();
     } else {
       checkStatus();
     }
+  };
+
+  useEffect(() => {
+    validate();
   }, []);
 
   const checkStatus = () => {
