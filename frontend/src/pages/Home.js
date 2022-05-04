@@ -20,7 +20,7 @@ const Item1 = styled(Paper)(() => ({
   textAlign: "center",
   borderRadius: 0,
   color: "white",
-  height: 250,
+  height: 300,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -34,7 +34,7 @@ const Item2 = styled(Paper)(() => ({
   textAlign: "center",
   borderRadius: 0,
   color: "white",
-  height: 250,
+  height: 300,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -61,7 +61,7 @@ const Home = () => {
       <Box
         sx={{
           width: "100vw",
-          height: 250,
+          height: 300,
           bottom: 0,
           position: "absolute",
           backgroundColor: "#2d4263",
@@ -109,7 +109,7 @@ const Home = () => {
                   ติดเชื้อเพิ่มวันนี้
                 </Box>
                 <Divider color="white" />
-                <Box sx={{ pt: 2, fontSize: "1.5vw" }}>NEW CASE</Box>
+                <Box sx={{ fontSize: "1.5vw" }}>NEW CASE</Box>
                 <Box
                   sx={{ typography: "body2", fontSize: "7vw", fontWeight: 400 }}
                 >
