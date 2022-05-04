@@ -58,7 +58,6 @@ const AssessSymptoms = () => {
             variant="contained"
             sx={{
               backgroundColor: element.selected ? "#34a853" : "#d9d9d9",
-              borderRadius: 0,
               px: 10,
               borderRadius: "3px",
             }}
@@ -145,7 +144,6 @@ const AssessSymptoms = () => {
         variant="contained"
         sx={{
           backgroundColor: "#f67f7f",
-          borderRadius: 0,
           px: 10,
           borderRadius: 10,
           my: 10,
