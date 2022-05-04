@@ -116,7 +116,7 @@ const AssessSymptoms = () => {
                 {Array(100)
                   .fill(1)
                   .map((el, i) => (
-                    <MenuItem key={i} defaultValue={i}>
+                    <MenuItem key={i} defaultValue={0} value={i}>
                       {i}
                     </MenuItem>
                   ))}
