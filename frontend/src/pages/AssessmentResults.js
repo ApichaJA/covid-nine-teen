@@ -143,7 +143,7 @@ const AssessmentResults = () => {
               <Box
                 sx={{
                   typography: "body2",
-                  fontSize: "2vw",
+                  fontSize: "1.5em",
                   fontWeight: "bold",
                 }}
               >
@@ -167,7 +167,7 @@ const AssessmentResults = () => {
             <Box
               sx={{
                 typography: "body2",
-                fontSize: "2vw",
+                fontSize: "1.5em",
                 fontWeight: "bold",
               }}
             >
@@ -196,7 +196,7 @@ const AssessmentResults = () => {
               <Box
                 sx={{
                   typography: "body2",
-                  fontSize: "2vw",
+                  fontSize: "1.5em",
                   fontWeight: "bold",
                 }}
               >
@@ -220,7 +220,7 @@ const AssessmentResults = () => {
             <Box
               sx={{
                 typography: "body2",
-                fontSize: "2vw",
+                fontSize: "1.5em",
                 fontWeight: "bold",
               }}
             >
@@ -249,7 +249,7 @@ const AssessmentResults = () => {
               <Box
                 sx={{
                   typography: "body2",
-                  fontSize: "2vw",
+                  fontSize: "1.5em",
                   fontWeight: "bold",
                 }}
               >
@@ -273,7 +273,7 @@ const AssessmentResults = () => {
             <Box
               sx={{
                 typography: "body2",
-                fontSize: "2vw",
+                fontSize: "1.5em",
                 fontWeight: "bold",
               }}
             >
