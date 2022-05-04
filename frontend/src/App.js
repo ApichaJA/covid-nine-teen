@@ -3,6 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AssessSymptoms from "./pages/AssessSymptoms";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AssessmentResults from "./pages/AssessmentResults";
+import Recomand from "./pages/Recomand";
 import "./pages/style.css";
 
 function App() {
@@ -10,8 +14,13 @@ function App() {
     <div className="App">
       <Navbar/>
       <Routes>
+        <Route path="*" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/Assess-Symptoms" element={<AssessSymptoms />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/symptom-assessment-results" element={<AssessmentResults />} />
+        <Route path="/recommand" element={<Recomand />} />
       </Routes>
     </div>
   );

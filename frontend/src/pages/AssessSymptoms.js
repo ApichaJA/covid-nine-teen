@@ -1,49 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 
+import { useDispatch } from "react-redux";
+import { set_symptoms } from "../store/assess";
+
 const AssessSymptoms = () => {
   const [age, setAge] = useState();
   const [state, setState] = useState(0);
+  const dispatch = useDispatch();
   const [choiceSelect, setChoiceSelect] = useState([
-    {
-      id: 1,
-      title: "เป็นไข้สูง",
-      selected: false,
-    },
-    {
-      id: 2,
-      title: "อ่อนเพลีย",
-      selected: false,
-    },
-    {
-      id: 3,
-      title: "แน่นหน้าอก",
-      selected: false,
-    },
-    {
-      id: 4,
-      title: "ไม่รู้รส",
-      selected: false,
-    },
-    {
-      id: 5,
-      title: "หอบเหนื่อยหนักมาก",
-      selected: false,
-    },
-    {
-      id: 6,
-      title: "ถ่ายเหลวมากกว่า 3 ครั้ง/วัน",
-      selected: false,
-    },
+    { id: 1, title: "เป็นไข้สูงกว่า 39", selected: false, status: 2 },
+    { id: 2, title: "อ่อนเพลีย", selected: false, status: 1 },
+    { id: 3, title: "แน่นหน้าอก", selected: false, status: 1 },
+    { id: 4, title: "ไม่รู้รส", selected: false, status: 0 },
+    { id: 5, title: "หอบเหนื่อยหนักมาก", selected: false, status: 2 },
+    { id: 6, title: "ถ่ายเหลวมากกว่า 3 ครั้ง/วัน", selected: false, status: 1 },
   ]);
 
   const handleChangeAge = (event) => {
@@ -51,10 +32,20 @@ const AssessSymptoms = () => {
   };
 
   const handleSelectChoice = (id) => {
-    let choice = choiceSelect
+    let choice = choiceSelect;
     choice[id - 1].selected = !choice[id - 1].selected;
     setChoiceSelect(choice);
-    setState(state+1)
+    setState(state + 1);
+  };
+
+  const navigate = useNavigate();
+  const handleOnClick = useCallback(
+    () => navigate("/login", { replace: true }),
+    [navigate]
+  );
+  const saveSymptoms = () => {
+    dispatch(set_symptoms(choiceSelect));
+    handleOnClick();
   };
 
   const ChoiceSelect = () => {
@@ -125,7 +116,7 @@ const AssessSymptoms = () => {
                 {Array(100)
                   .fill(1)
                   .map((el, i) => (
-                    <MenuItem key={i} value={i}>
+                    <MenuItem key={i} defaultValue={i}>
                       {i}
                     </MenuItem>
                   ))}
@@ -149,6 +140,27 @@ const AssessSymptoms = () => {
           <ChoiceSelect />
         </Grid>
       </Box>
+      <Button
+        onClick={saveSymptoms}
+        variant="contained"
+        sx={{
+          backgroundColor: "#f67f7f",
+          borderRadius: 0,
+          px: 10,
+          borderRadius: 10,
+          my: 10,
+        }}
+      >
+        <Box
+          sx={{
+            typography: "body2",
+            fontSize: "2vw",
+            fontWeight: "bold",
+          }}
+        >
+          ถัดไป
+        </Box>
+      </Button>
     </Container>
   );
 };
