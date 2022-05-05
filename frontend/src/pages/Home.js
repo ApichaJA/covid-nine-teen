@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,9 +8,12 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
+import Fade from "@mui/material/Fade";
 import { Link } from "react-router-dom";
 
 import virus from "../assets/video/virus.mp4";
+
+import third from "../services/api/third";
 
 const Item1 = styled(Paper)(() => ({
   backgroundColor: "#2d4263",
@@ -41,23 +45,43 @@ const Item2 = styled(Paper)(() => ({
 }));
 
 const Home = () => {
+  const [newCase, setNewCase] = useState('loading');
+
+  useEffect(() => {
+    const getCase = async () => {
+      await third
+        .getNewCase()
+        .then((res) => {
+          setNewCase(res.data[0].new_case);
+        })
+        .catch((e) => console.log(e));
+    };
+    getCase();
+  }, []);
   return (
     <Container
       sx={{
+        backgroundColor: "black",
         maxWidth: "none!important",
         minWidth: "none!important",
         padding: "0!important",
         position: "relative",
       }}
     >
-      <CardMedia
-        component="video"
-        image={virus}
-        className={"background-video"}
-        autoPlay
-        muted
-        loop
-      />
+      <Fade
+        in={true}
+        style={{ transformOrigin: "0 0 0" }}
+        {...(true ? { timeout: 3000 } : {})}
+      >
+        <CardMedia
+          component="video"
+          image={virus}
+          className={"background-video"}
+          autoPlay
+          muted
+          loop
+        />
+      </Fade>
       <Box
         sx={{
           width: "100vw",
@@ -110,11 +134,21 @@ const Home = () => {
                 </Box>
                 <Divider color="white" />
                 <Box sx={{ fontSize: "1.5vw" }}>NEW CASE</Box>
-                <Box
-                  sx={{ typography: "body2", fontSize: "7vw", fontWeight: 400 }}
+                <Fade
+                  in={true}
+                  style={{ transformOrigin: "0 0 0" }}
+                  {...(true ? { timeout: 1000 } : {})}
                 >
-                  {(19990).toLocaleString()}
-                </Box>
+                  <Box
+                    sx={{
+                      typography: "body2",
+                      fontSize: "7vw",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {newCase.toLocaleString()}
+                  </Box>
+                </Fade>
               </Box>
             </Item2>
           </Grid>

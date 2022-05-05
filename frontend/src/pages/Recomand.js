@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 import rec from "../assets/images/rec.jpeg";
 
 const Recomand = () => {
+    const navigate = useNavigate();
+  const handleOnClick = useCallback(
+    () => navigate("/", { replace: true }),
+    [navigate]
+  );
+  const goHome = () => {
+    handleOnClick();
+  };
   return (
     <Container
       maxWidth={false}
@@ -77,6 +87,26 @@ const Recomand = () => {
             </Box>
           </Grid>
         </Grid>
+        <Button
+        onClick={goHome}
+        variant="contained"
+        sx={{
+          backgroundColor: "#2d4263",
+          px: 10,
+          borderRadius: 10,
+          mt: 10,
+        }}
+      >
+        <Box
+          sx={{
+            typography: "body2",
+            fontSize: "2vw",
+            fontWeight: "bold",
+          }}
+        >
+          กลับสู่หน้าหลัก
+        </Box>
+      </Button>
       </Box>
     </Container>
   );
