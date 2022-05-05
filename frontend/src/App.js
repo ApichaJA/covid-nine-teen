@@ -7,6 +7,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AssessmentResults from "./pages/AssessmentResults";
 import Recomand from "./pages/Recomand";
+import Hospital from "./pages/Hospital";
+import Medicine from "./pages/Medicine";
+
 import "./pages/style.css";
 
 function App() {
@@ -21,6 +24,8 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/symptom-assessment-results" element={<AssessmentResults />} />
         <Route path="/recommand" element={<Recomand />} />
+        <Route path="/hospital" element={<Hospital />} />
+        <Route path="/medicine" element={<Medicine />} />
       </Routes>
     </div>
   );

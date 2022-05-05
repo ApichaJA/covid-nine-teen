@@ -129,7 +129,7 @@ const AssessmentResults = () => {
           <Box>
             <Button
               component={Link}
-              to="/get-medicine"
+              to="/medicine"
               replace
               variant="contained"
               sx={{
@@ -153,7 +153,7 @@ const AssessmentResults = () => {
           </Box>
           <Button
             component={Link}
-            to="/find-hospital"
+            to="/hospital"
             replace
             variant="contained"
             sx={{
@@ -182,7 +182,7 @@ const AssessmentResults = () => {
           <Box>
             <Button
               component={Link}
-              to="/get-medicine"
+              to="/medicine"
               replace
               variant="contained"
               sx={{
@@ -206,7 +206,7 @@ const AssessmentResults = () => {
           </Box>
           <Button
             component={Link}
-            to="/find-hospital"
+            to="/hospital"
             replace
             variant="contained"
             sx={{
@@ -235,7 +235,7 @@ const AssessmentResults = () => {
           <Box>
             <Button
               component={Link}
-              to="/get-medicine"
+              to="/medicine"
               replace
               variant="contained"
               sx={{
