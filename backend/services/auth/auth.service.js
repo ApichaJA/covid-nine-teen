@@ -1,131 +1,68 @@
-const Account = require("../../models/account");
-const generateUserToken = require("../../lib/auth/generateToken");
-const bcrypt = require("bcrypt");
-const { v4: uuidv4 } = require("uuid");
+var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
+var AWS = require("aws-sdk/dist/aws-sdk-react-native");
 
-const getAllAccount = () => {
+global.XMLHttpRequest = require('xhr2');
+
+const login = (email, password) => {
   return new Promise((resolve, reject) => {
-    Account.find()
-      .then((result) => {
-        resolve(result);
-      })
-      .catch((err) => {
-        reject(new Error(err));
-      });
-  });
-};
+    var authenticationData = {
+      Username: email,
+      Password: password,
+    };
+    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+      authenticationData
+    );
+    var poolData = {
+      UserPoolId: "us-east-1_qSAnKVgn7", // Your user pool id here
+      ClientId: "59b089d8c01t5blar84vlgb6vs", // Your client id here
+    };
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var userData = {
+      Username: email,
+      Pool: userPool,
+    };
 
-const getProfile = (uuid) => {
-  return new Promise((resolve, reject) => {
-    Account.findOne({ "account.uuid": uuid }, {
-      "account.password": 0
-    })
-      .then(async ({ account, profile }) => {
-        resolve(Object.assign({ account }, { profile }));
-      })
-      .catch(() => {
-        reject("uuid dose not exist!");
-      });
-  });
-};
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: function (result) {
+        var accessToken = result.getAccessToken().getJwtToken();
 
-const login = (username, password) => {
-  return new Promise((resolve, reject) => {
-    Account.findOne({ "account.username": username.toLowerCase() })
-      .then(async ({ account, profile, role }) => {
-        const match = await bcrypt.compare(password, account.password);
-        if (match) {
-          const token = generateUserToken(account, profile, role);
-          resolve(Object.assign({ uuid: account.uuid }, { profile }, { role }, { accessToken: token }));
-        } else {
-          reject("Password is not correct!");
-        }
-      })
-      .catch((e) => {
-        reject("Username dose not exist!");
-      });
-  });
-};
+        //POTENTIAL: Region needs to be set if not already set previously elsewhere.
+        AWS.config.region = "us-east-1";
 
-const create_account = (body) => {
-  return new Promise((resolve, reject) => {
-    const { username, password, firstname, lastname, role } = body;
-    Account.findOne({
-      "account.username": username.toLowerCase(),
-    })
-      .then((isExist) => {
-        if (isExist) {
-          reject("Username already exists!");
-        } else {
-          if (!isExist) {
-            const saltRounds = 10;
-            const salt = bcrypt.genSaltSync(saltRounds);
-            const create_account = new Account({
-              account: {
-                username: username.toLowerCase(),
-                password: bcrypt.hashSync(password, salt),
-                uuid: uuidv4(),
-              },
-              profile: {
-                firstname,
-                lastname,
-              },
-              role: role ? role : "user",
-            });
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: "us-east-1:1a138cc3-07c8-4e43-a42c-5200275373e5", // your identity pool id here
+          Logins: {
+            // Change the key below according to the specific region your user pool is in.
+            "cognito-idp.us-east-1.amazonaws.com/us-east-1_qSAnKVgn7": result
+              .getIdToken()
+              .getJwtToken(),
+          },
+        });
 
-            create_account
-              .save()
-              .then(() => {
-                resolve(login(username, password))
-              })
-              .catch((err) => {
-                reject(new Error(err));
-              })
+        //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+        AWS.config.credentials.refresh((error) => {
+          if (error) {
+            console.error(error);
+            reject(401);
           } else {
-            reject("Username already exists!");
+            // Instantiate aws sdk service objects now that the credentials have been updated.
+            // example: var s3 = new AWS.S3();
+            // console.log("Successfully logged!");
+            resolve(200);
           }
-        }
-      })
-      .catch((e) => {
-        resolve(new Error(e));
-      });
-  });
-};
+        });
+      },
 
-const renew_password = ({ username, password, new_password }) => {
-  return new Promise((resolve, reject) => {
-    Account.findOne({ "account.username": username.toLowerCase() })
-      .then(async ({ account }) => {
-        const match = await bcrypt.compare(password, account.password);
-        if (match) {
-          const saltRounds = 10;
-          const salt = bcrypt.genSaltSync(saltRounds);
-          Account.updateOne(
-            { uuid: account.uuid },
-            {
-              $set: { "account.password": bcrypt.hashSync(new_password, salt) },
-            }
-          )
-            .then(() => {
-              resolve(200);
-            })
-            .catch((e) => {
-              reject(e);
-            });
-        } else {
-          reject("Password is not correct!");
-        }
-      })
-      .catch(() => {
-        reject("Username dose not exist!");
-      });
+      onFailure: function (err) {
+        console.error(err);
+        reject(401);
+      },
+    });
   });
 };
 
 module.exports = {
-  getAllAccount,
   login,
-  create_account,
-  renew_password,
-  getProfile,
 };
